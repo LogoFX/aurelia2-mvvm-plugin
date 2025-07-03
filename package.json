@@ -21,6 +21,12 @@
     "@aurelia/webpack-loader": "latest",
     "@commitlint/cli": "^19.8.1",
     "@commitlint/config-conventional": "^19.8.1",
+    "@semantic-release/changelog": "^6.0.3",
+    "@semantic-release/commit-analyzer": "^13.0.1",
+    "@semantic-release/git": "^10.0.1",
+    "@semantic-release/github": "^11.0.3",
+    "@semantic-release/npm": "^12.0.2",
+    "@semantic-release/release-notes-generator": "^14.0.3",
     "@types/jest": "^29.5.14",
     "@types/node": "^22.10.2",
     "autoprefixer": "^10.4.20",
@@ -36,6 +42,7 @@
     "lint-staged": "^16.1.2",
     "postcss": "^8.4.49",
     "postcss-loader": "^8.1.1",
+    "standard-version": "^9.5.0",
     "style-loader": "^4.0.0",
     "stylelint": "^16.12.0",
     "stylelint-config-standard": "^36.0.1",
@@ -58,7 +65,8 @@
     "build": "webpack --env production",
     "analyze": "webpack --env production --analyze",
     "test": "jest",
-    "prepare": "husky"
+    "prepare": "husky",
+    "release": "standard-version && git push --follow-tags && npm publish"
   },
   "jest": {
     "testMatch": [
