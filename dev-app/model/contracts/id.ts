@@ -1,4 +1,5 @@
-export { Guid } from '../../../src/core/guid';
+import { Guid } from '../../../src';
+
 
 export interface IId {
   id: Guid;
