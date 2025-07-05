@@ -24,7 +24,7 @@ export class NullOrUndefinedValueObjectPropertyError extends Error {
  * Abstract base class for Value Objects.
  * Value Objects are immutable and compared by their structural properties.
  */
-export abstract class ValueObject<T extends Constructable> {
+export abstract class ValueObject<T = object> {
 
   // Immutable properties stored in a protected field
   protected readonly props: T;
