@@ -4,7 +4,7 @@ import eslintTs from 'typescript-eslint';
 import globals from "globals";
 import tsParser from '@typescript-eslint/parser'
 
-const tsFiles = ['{src,tests}/**/*.ts']
+const tsFiles = ['{src,test}/**/*.ts']
 
 const customTsConfig = {
     files: tsFiles,
