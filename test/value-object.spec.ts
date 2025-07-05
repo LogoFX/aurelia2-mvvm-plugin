@@ -22,7 +22,7 @@ describe('ValueObject', () => {
       // This should throw an error in strict mode if we try to modify the frozen value
       expect(() => {
         // Attempt to modify the original props
-         props.name = 'Changed';        
+        props.name = 'Changed';        
       }).toThrow(TypeError);
       // This should throw an error in strict mode if we try to modify the frozen value
       expect(() => {
