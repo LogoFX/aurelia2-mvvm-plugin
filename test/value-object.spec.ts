@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { CircularReferenceError, ValueObject } from '../src/model/value-object';
+import { ValueObject } from '../src/model/value-object';
+import { CircularReferenceError } from "../src/model/circular-reference-error";
 
 // Test implementation of ValueObject
 class TestValueObject extends ValueObject<any> {
