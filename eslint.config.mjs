@@ -46,6 +46,7 @@ const customTsConfig = {
         "@typescript-eslint/no-empty-object-type": "warn",
         "@typescript-eslint/no-unsafe-function-type": "warn",
         "@typescript-eslint/no-empty-function": "warn",
+        "@typescript-eslint/no-inferrable-types": 0,
         "no-unused-vars": 0,
         "no-constant-binary-expression": "warn",
         "no-prototype-builtins": 0,
