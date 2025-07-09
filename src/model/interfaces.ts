@@ -1,7 +1,7 @@
 import { ValueObject } from './value-object';
 import { IValidationRules } from '@aurelia/validation';
 
-export interface IEntity<T = ValueObject<unknown>> {
+export interface IEntity<T = ValueObject> {
     id: T;    
 }
 
