@@ -1,48 +1,58 @@
-import { ControllerValidateResult, IValidationController } from "@aurelia/validation-html";
-import { IEditableEntity, ValueObject } from "../model";
+import {
+  ControllerValidateResult
+} from "@aurelia/validation-html";
+import { IEditableEntity, IEditableObject, ValueObject } from "../model";
 import { ObjectViewModel } from "./object-view-model";
-import { newInstanceForScope, resolve } from "@aurelia/kernel";
+import { Validatable } from "./mixins";
 
-export abstract class EditableObjectViewModel<T extends IEditableEntity<ValueObject>> extends ObjectViewModel<T> {
-
-  protected readonly validationController: IValidationController = resolve(newInstanceForScope(IValidationController));
+/**
+ * Abstract base class for view models that represent editable objects.
+ * 
+ * This class provides the core functionality for managing an editable entity's lifecycle,
+ * including beginning an edit session, committing changes, and canceling edits.
+ * It also provides validation support through the Validatable mixin.
+ * 
+ * @template T The type of the model, which must implement IEditableEntity<ValueObject>
+ * @extends {Validatable(ObjectViewModel)<T>}
+ * @implements {IEditableObject}
+ */
+export abstract class EditableObjectViewModel<T extends IEditableEntity<ValueObject>> 
+  extends Validatable(ObjectViewModel)<T> 
+  implements IEditableObject {
 
   constructor(model: T) {
     super(model);
   }
 
-  public canCancelChanges: boolean;
+  public canCancelChanges: boolean = false;
 
-  public beginEdit(): void {
-    this.model.beginEdit();
+  public async beginEdit(): Promise<void> {
+    await this.model.beginEdit();
   }
 
-  public cancelEdit(): void {
-    this.model.cancelEdit();
+  public async cancelEdit(): Promise<void> {
+    await this.model.cancelEdit();
   }
 
-  public commitEdit(): void {
-    this.validationController
-      .validate()
-      .then(async (validation: ControllerValidateResult): Promise<void> => {
-        if (!validation.valid) {
-          throw new Error(validation.results.toString());
-        } else {
-          await this.save(this.model)
-            .then((/* */): void => {
-              this.model.commitEdit();
-            })
-            .then(async (/* */): Promise<unknown> => this.afterSave(this.model));
-        }
-      })
-      .catch(async (error: unknown): Promise<void> => {
-        await this.showError(error);
-      });
+  public async commitEdit(): Promise<void> {
+    try {
+      const validation: ControllerValidateResult =
+        await this.validationController.validate();
+      if (!validation.valid) {
+        throw new Error(validation.results.toString());
+      }
+
+      await this.beforeCommit(this.model);
+      this.model.commitEdit();
+      await this.afterCommit(this.model);
+    } catch (error) {
+      await this.showError(error);
+    }
   }
 
-  protected abstract save(model: T): Promise<unknown>;
+  protected abstract beforeCommit(model: T): Promise<unknown>;
 
-  protected abstract afterSave(model: T): Promise<unknown>;
+  protected abstract afterCommit(model: T): Promise<unknown>;
 
   protected abstract discard(model: T): Promise<unknown>;
 

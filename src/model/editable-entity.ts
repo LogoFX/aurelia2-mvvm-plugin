@@ -1,19 +1,21 @@
-import { IValidationRules } from "@aurelia/validation";
-import { IEditableEntity } from "./interfaces";
-import { newInstanceOf, resolve } from "@aurelia/kernel";
+import { IValidationRules, ValidationRules } from "@aurelia/validation";
+import { IEditableEntity, IEntity } from "./interfaces";
+import { last, newInstanceOf, resolve } from "@aurelia/kernel";
 import { Entity } from "./entity";
+import { RootContainer } from "../core";
 
 export abstract class EditableEntity<T> extends Entity<T> implements IEditableEntity<T> {
 
-  protected readonly validationRules: IValidationRules = resolve(newInstanceOf(IValidationRules));
+  protected readonly validationRules: IValidationRules;
   
   private _newGuard: boolean;
   private _isDirty: boolean = false;
   private _isNew: boolean = false;
   private _isEditing: boolean = false;
 
-  constructor(id: T) {
-    super(id);
+  constructor(id?: T | (() => T), props?: Partial<IEntity<T>>) {    
+    super(id, props);
+    this.validationRules = resolve(IValidationRules);
   }
 
   public get isNew(): boolean {
@@ -22,6 +24,10 @@ export abstract class EditableEntity<T> extends Entity<T> implements IEditableEn
 
   public get isDirty(): boolean {
     return this._isDirty;
+  }
+
+  public get isEditing(): boolean {
+    return this._isEditing;
   }
 
   public makeDirty(): void {
@@ -33,17 +39,17 @@ export abstract class EditableEntity<T> extends Entity<T> implements IEditableEn
     this._isDirty = false;
   }
 
-  public beginEdit(): void {
+  public async beginEdit(): Promise<void> {
     this.cleanDirty();
     this._isEditing = true;
   }
 
-  public cancelEdit(): void {
+  public async cancelEdit(): Promise<void> {
     this.cleanDirty();
     this._isEditing = false;
   }
 
-  public commitEdit(): void {
+  public async commitEdit(): Promise<void> {
     this.cleanDirty();
     this._isEditing = false;
   }

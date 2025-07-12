@@ -21,16 +21,18 @@ export interface ICanBeDirty {
 
 export interface IEditableObject {
   
-  beginEdit(): void;
+  beginEdit(): Promise<void>;
 
-  cancelEdit(): void;
+  cancelEdit(): Promise<void>;
 
-  commitEdit(): void;
+  commitEdit(): Promise<void>;
 
 }
 
 export interface IEditableEntity<T> extends IEntity<T>, ICanBeDirty, IEditableObject {
-
+  
   get isNew(): boolean;
+
+  get isEditing(): boolean;
 
 }
