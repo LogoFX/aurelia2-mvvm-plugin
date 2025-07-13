@@ -1,1 +1,31 @@
-<H1>Hello World!</H1>
+<H1>Hello World! </H1>
+<hr>
+<hr>
+<div as-element="person-view">30
+  <h2>Person Details</h2>
+  <hr>
+  <div style="margin-bottom: 16px;">
+    Name: <input type="text" value.bind="person.model.name & validate:undefined:person.validationController:person.model.validationRules" validation-errors="errors.bind: errors; controller.bind: person.validationController;">
+    <span repeat.for="error of errors">${error.result.message}</span>
+  </div>
+  <div style="margin-bottom: 16px;">
+    Age: <input type="number" value.bind="person.model.age & validate:undefined:person.validationController:person.model.validationRules" validation-errors="errors.bind: errors; controller.bind: person.validationController;">
+    <span repeat.for="error of errors">${error.result.message}</span>
+  </div>
+</div>
+<div style="margin-bottom: 24px;">
+  <button click.trigger="add()">Add</button>
+</div>
+<hr>
+<hr>
+<h2>Persons</h2>
+<hr>
+<div repeat.for="p of wc">
+  <span>
+    Name - ${p.model.name},&nbsp;
+  </span>
+  <span>
+    Age - ${p.model.age}
+  </span>
+</div>
+
