@@ -6,7 +6,7 @@ import { RootContainer } from "../core";
 
 export abstract class EditableEntity<T> extends Entity<T> implements IEditableEntity<T> {
 
-  protected readonly validationRules: IValidationRules;
+  public readonly validationRules: IValidationRules;
   
   private _newGuard: boolean;
   private _isDirty: boolean = false;
