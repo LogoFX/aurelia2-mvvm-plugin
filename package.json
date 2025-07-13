@@ -74,7 +74,8 @@
     "pretest": "npm run lint",
     "test": "jest",
     "prepare": "husky",
-    "release": "standard-version && git push --follow-tags && npm publish"
+    "release": "standard-version && git push --follow-tags && npm publish",
+    "first-release": "standard-version --first-release --sign && git push && npm publish"
   },
   "jest": {
     "testMatch": [
