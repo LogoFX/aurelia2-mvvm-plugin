@@ -1,7 +1,9 @@
 import { newInstanceForScope, resolve } from "aurelia";
-import { IValidationController } from "@aurelia/validation-html";
+import { ControllerValidateResult, IValidationController } from "@aurelia/validation-html";
 import { AbstractConstructor } from "../core";
 import { ISelectable, ISupportEnabled, ICanBeBusy } from "./interfaces";
+import { IValidateable, IValidationRules, ValidateInstruction } from "@aurelia/validation";
+import { IEntity } from "../model";
 
 /**
  * A mixin that adds selection capability to a class.
@@ -64,10 +66,16 @@ export function CanBeBusy<TBase extends AbstractConstructor>(Base: TBase) {
  * @param Base - The base class to extend with validation capabilities
  * @returns A new class that extends the base class and includes validation functionality
  */
-export function Validatable<TBase extends AbstractConstructor>(Base: TBase) {
+export function Validateable<TBase extends AbstractConstructor>(Base: TBase) {
   return class extends Base {
 
-    protected readonly validationController: IValidationController = resolve(newInstanceForScope(IValidationController));
-    
+    public readonly validationController: IValidationController = resolve(newInstanceForScope(IValidationController));
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    public readonly validationRules: IValidationRules = (this as any).model.validationRules;
+    //  = new ValidateInstruction((this as any).model)
+    public async validateAsync(instruction?: Partial<ValidateInstruction<IValidateable>>): Promise<ControllerValidateResult> {
+      const result = await this.validationController.validate(instruction);
+      return result;
+    }
   };
 }
