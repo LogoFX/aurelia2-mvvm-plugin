@@ -1,5 +1,4 @@
-import { Constructable, IContainer, inject, newInstanceOf } from "aurelia";
-
+import { Constructable, DI, IContainer, inject, singleton } from "aurelia";
 export interface IViewModelCreatorService {
   /**
    * Creates an instance of the specified type.
@@ -8,7 +7,6 @@ export interface IViewModelCreatorService {
    */
   create<T>(type: unknown, ...rest: unknown[]): T;
 }
-
 
 /**
  * Service responsible for creating view model instances.
@@ -20,6 +18,7 @@ export interface IViewModelCreatorService {
  * @implements {IViewModelCreatorService}
  */
 @inject(IContainer)
+@singleton()
 export class ViewModelCreatorService implements IViewModelCreatorService {
   constructor(private readonly container: IContainer) {
     // Ensure the container is set up correctly.
@@ -28,15 +27,10 @@ export class ViewModelCreatorService implements IViewModelCreatorService {
     }
   }
 
-  public create<T>(type: unknown, ...rest: unknown[]): T {
-    // const instance: T = this.container.get(newInstanceOf(type)) as T;
+  public create<T>(type: Constructable, ...rest: unknown[]): T {
+    
+    const instance: T = this.container.invoke(type, rest) as T;
 
-    const instance: T = this.container.invoke(type as Constructable, rest) as T;
-    // if (rest.length > 0) {      
-    //   instance['model'] = rest[0];
-    // }
-
-    // console.log(rest);
     return instance;
   }
 }
