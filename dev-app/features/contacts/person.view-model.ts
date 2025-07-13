@@ -1,5 +1,5 @@
-import { customElement } from "aurelia";
-import { CanBeBusy, Enabled, Selectable, EditableObjectViewModel, Validatable } from "../../../src";
+import { customElement, IContainer, inject } from "aurelia";
+import { CanBeBusy, Enabled, Selectable, EditableObjectViewModel } from "../../../src";
 import { IPerson } from "../../model/contracts/person.interface";
 import template from "./person.view.html";
 
@@ -10,6 +10,7 @@ import template from "./person.view.html";
 })
 export class PersonViewModel extends CanBeBusy(Enabled(Selectable(EditableObjectViewModel<IPerson>))) {
 
+  
   protected beforeCommit(model: IPerson): Promise<unknown> {
     throw new Error('Method not implemented.');
   }
@@ -25,7 +26,9 @@ export class PersonViewModel extends CanBeBusy(Enabled(Selectable(EditableObject
   protected showError<TError = Error>(error: TError): Promise<unknown> {
     throw new Error('Method not implemented.');
   }
+  
   public constructor(model: IPerson) {
     super(model);
+    this.validationController.addObject(model);
   }
 }

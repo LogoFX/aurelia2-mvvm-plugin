@@ -1,6 +1,5 @@
-import { Constructable } from 'aurelia';
-import { bindable, newInstanceForScope, resolve, DI, inject, IContainer, IObserverLocator } from 'aurelia';
-import { CanBeBusy, EditableObjectViewModel, Enabled, IWrappingCollection, Selectable, ViewModelCreatorService, WrappingCollection } from '../src/view-model';
+import { bindable, newInstanceForScope, inject, IContainer } from 'aurelia';
+import { CanBeBusy, Enabled, IViewModelCreatorService, Selectable, ViewModelCreatorService, WrappingCollection } from '../src/view-model';
 import { PersonViewModel } from './features/contacts';
 import { Person } from './model/implementation/person';
 import { IValidationController } from '@aurelia/validation-html';
@@ -14,7 +13,7 @@ class Wrapper {
 
 class EnhancedWrapper extends CanBeBusy(Enabled(Selectable(Wrapper))) {}
 
-@inject(IContainer, ViewModelCreatorService, newInstanceForScope(IValidationController), newInstanceForScope(IValidationRules))
+@inject(IContainer, ViewModelCreatorService, newInstanceForScope(IValidationController))
 export class MyApp  {
   
    
@@ -22,11 +21,11 @@ export class MyApp  {
   public wc: WrappingCollection;
   source: Person[] = []; 
   public personModel;
-  public person;
+  public person: PersonViewModel;
 
 
-  constructor(private container: IContainer, private viewModelCreatorService: ViewModelCreatorService) {
-
+  constructor(private container: IContainer, private viewModelCreatorService: IViewModelCreatorService, private validationController: IValidationController) {
+    this.validationController.addObject(this.person);
   }
     created() {
       const personModel = this.container.invoke<Person>(Person, [{name: 'John Doe', age: 30}]);
@@ -63,7 +62,7 @@ export class MyApp  {
   }
 
   async add() {
-    const result = await this.person.validationController.validate(new ValidateInstruction(this.person.model, this.person.validationRules));
+    const result = await this.person.validateAsync();
     console.log('Validation result:', result);
     // if (result.valid) {
     //   this.source.push(new Person({name: 'Daniel Brick', age: 55}));
