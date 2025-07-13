@@ -1,6 +1,7 @@
 {
   "name": "@logofx/aurelia2-mvvm-plugin",
   "description": "An Aurelia 2 plugin.",
+  "private": false,
   "main": "dist/index.js",
   "files": [
     "dist"
@@ -11,16 +12,15 @@
     "url": "https://github.com/logofx/aurelia2-mvvm-plugin.git"
   },
   "license": "MIT",
-  "dependencies": {
-    "@aurelia/router": "2.0.0-beta.24",
-    "aurelia": "2.0.0-beta.24"
+  "dependencies": {    
   },
   "devDependencies": {
-    "@aurelia/testing": "2.0.0-beta.24",
-    "@aurelia/ts-jest": "2.0.0-beta.24",
-    "@aurelia/validation": "2.0.0-beta.24",
-    "@aurelia/validation-html": "2.0.0-beta.24",
-    "@aurelia/webpack-loader": "2.0.0-beta.24",
+    "aurelia": "^2.0.0-beta.25",
+    "@aurelia/testing": "^2.0.0-beta.25",
+    "@aurelia/ts-jest": "^2.0.0-beta.25",
+    "@aurelia/validation": "^2.0.0-beta.25",
+    "@aurelia/validation-html": "^2.0.0-beta.25",
+    "@aurelia/webpack-loader": "^2.0.0-beta.25",
     "@commitlint/cli": "^19.8.1",
     "@commitlint/config-conventional": "^19.8.1",
     "@semantic-release/changelog": "^6.0.3",
@@ -30,13 +30,12 @@
     "@semantic-release/npm": "^12.0.2",
     "@semantic-release/release-notes-generator": "^14.0.3",
     "@types/jest": "^30.0.0",
-    "@types/node": "^24.0.11",
-    "@types/ramda": "^0.30.2",
-    "aurelia-validation-decorators": "latest",
+    "@types/node": "^24.0.13",
+    "aurelia-validation-decorators": "^1.1.4",
     "autoprefixer": "^10.4.21",
     "css-loader": "^7.1.2",
     "dotenv-webpack": "^8.1.1",
-    "eslint": "^9.30.1",
+    "eslint": "^9.31.0",
     "eslint-plugin-import": "^2.32.0",
     "globals": "^16.3.0",
     "html-webpack-plugin": "^5.6.3",
@@ -55,14 +54,15 @@
     "tslib": "^2.8.1",
     "typescript": "^5.8.3",
     "typescript-eslint": "^8.36.0",
-    "webpack": "^5.99.9",
+    "webpack": "^5.100.1",
     "webpack-bundle-analyzer": "^4.10.2",
     "webpack-cli": "^6.0.1",
     "webpack-dev-server": "^5.2.2",
     "webpack-node-externals": "^3.0.0"
   },
   "peerDependencies": {
-    "@aurelia/validation": "2.0.0-beta.24"
+    "aurelia": "^2.0.0-beta.25",
+    "@aurelia/validation": "^2.0.0-beta.25"
   },
   "scripts": {
     "start": "webpack serve",
