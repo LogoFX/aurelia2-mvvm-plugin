@@ -10,8 +10,8 @@ import { NullOrUndefinedValueObjectPropertyError } from "./null-or-undefined-val
  *
  */
 export abstract class ValueObject<T = object> {
-  // Immutable properties stored in a protected field
-  protected readonly props: T;
+  // Immutable properties stored in a private field
+  private readonly _props: T;
 
   constructor(props: T) {
     // Ensure properties are not null or undefined
@@ -25,7 +25,7 @@ export abstract class ValueObject<T = object> {
     this.checkForCircularReferences(props);
 
     // Deep freeze the properties to enforce immutability
-    this.props = this.deepFreeze(props);
+    this._props = this.deepFreeze(props);
   }
 
   /**
@@ -36,7 +36,7 @@ export abstract class ValueObject<T = object> {
   public equals(vo?: ValueObject<T>): boolean {
     if (vo === null || vo === undefined) return false;
     if (vo.constructor !== this.constructor) return false;
-    return this.valueEquals(vo.props);
+    return this.valueEquals(vo._props);
   }
 
   /**
@@ -45,14 +45,14 @@ export abstract class ValueObject<T = object> {
    * @returns true if properties are structurally equal
    */
   protected valueEquals(props: T): boolean {
-    return this.deepEqual(this.props, props);
+    return this.deepEqual(this._props, props);
   }
 
   /**
    * Returns the raw properties of the Value Object
    */
   public get value(): T {
-    return this.props;
+    return this._props;
   }
 
   /**
@@ -127,5 +127,9 @@ export abstract class ValueObject<T = object> {
       });
     }
     return obj;
+  }
+
+  public toString(): string {
+    return this._props.toString();
   }
 }
