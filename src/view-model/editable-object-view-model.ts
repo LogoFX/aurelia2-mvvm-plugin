@@ -3,7 +3,7 @@ import {
 } from "@aurelia/validation-html";
 import { IEditableEntity, IEditableObject, ValueObject } from "../model";
 import { ObjectViewModel } from "./object-view-model";
-import { Validatable } from "./mixins";
+import { Validateable } from "./mixins";
 
 /**
  * Abstract base class for view models that represent editable objects.
@@ -17,7 +17,7 @@ import { Validatable } from "./mixins";
  * @implements {IEditableObject}
  */
 export abstract class EditableObjectViewModel<T extends IEditableEntity<ValueObject>> 
-  extends Validatable(ObjectViewModel)<T> 
+  extends Validateable(ObjectViewModel)<T> 
   implements IEditableObject {
 
   constructor(model: T) {
