@@ -73,8 +73,8 @@
     "pretest": "npm run lint",
     "test": "jest",
     "prepare": "husky",
-    "release": "standard-version && git push --follow-tags && npm publish",
-    "first-release": "standard-version --first-release && git push && npm publish"
+    "release": "standard-version && git push --follow-tags && npm publish --access public",
+    "postrealease": "gh release create v1.1.5 -t \"v1.1.5\" -F CHANGELOG.md --latest"
   },
   "jest": {
     "testMatch": [
