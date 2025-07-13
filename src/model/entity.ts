@@ -15,8 +15,21 @@ import { IEntity } from "./interfaces";
  * Additional properties can be assigned during instantiation via the props parameter.
  */
 export abstract class Entity<T> implements IEntity<T> {
+  /**
+   * The unique and also immutable identifier for this entity.
+   *
+   * @type {T}
+   * @memberof Entity
+   */
   public readonly id: T;
 
+  /**
+   * Creates an instance of the Entity class.
+   *
+   * @param {T | (() => T)} [id] - The unique identifier for this entity, or a factory function that generates the identifier.
+   * @param {Partial<IEntity<T>>} [props] - Additional properties to assign to the entity.
+   * 
+   */
   constructor(id?: T | (() => T), props?: Partial<IEntity<T>>) {
     this.id = typeof id === 'function' ? (id as () => T)() : id;
     Object.freeze(this.id);

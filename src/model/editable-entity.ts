@@ -4,6 +4,23 @@ import { last, newInstanceOf, resolve } from "@aurelia/kernel";
 import { Entity } from "./entity";
 import { RootContainer } from "../core";
 
+/**
+ * Represents an entity that can be edited, providing functionality for tracking edit state and validation.
+ * This class extends the base Entity class and implements the IEditableEntity interface.
+ * 
+ * @template T - The type of the entity's identifier.
+ * @extends {Entity<T>}
+ * @implements {IEditableEntity<T>}
+ * 
+ * @remarks
+ * The EditableEntity class manages the editing lifecycle of an entity, tracking whether an entity:
+ * - Is new
+ * - Is dirty (has been modified during the current edit session)
+ * - Is currently being edited
+ * 
+ * It provides methods to begin, cancel, and commit edit operations, as well as marking
+ * an entity as new or dirty and cleaning its dirty state.
+ */
 export abstract class EditableEntity<T> extends Entity<T> implements IEditableEntity<T> {
 
   public readonly validationRules: IValidationRules;
